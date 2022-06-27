@@ -1,3 +1,6 @@
+scalar JSON
+
 type Query {
   testTradeScheme: String
+  getAllOffer(customerGroupId: Int, skuList: [String]): JSON
 }
