@@ -19,4 +19,20 @@ public class ApplicationProperties {
     public class TradeSchemeProperties {
         private String url;
     }
+
+    @ConfigurationProperties(prefix = "credit")
+    @Getter
+    @Setter
+    @Component
+    public class CreditProperties {
+        private String url;
+    }
+
+    @ConfigurationProperties(prefix = "pdp")
+    @Getter
+    @Setter
+    @Component
+    public class PDPProperties {
+        private String url;
+    }
 }

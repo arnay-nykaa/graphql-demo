@@ -7,12 +7,33 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Configuration
 @EnableAsync
 public class ApplicationConfiguration {
 
-    @Bean(name = "asyncExecutor")
-    public TaskExecutor threadPoolTaskExecutor() {
+    @Bean(name = "tradeSchemeTaskExecutor")
+    public TaskExecutor tradeSchemeTaskExecutor() {
+       ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+       executor.setCorePoolSize(5);
+       executor.setMaxPoolSize(10);
+       executor.initialize();
+       return executor;
+    }
+
+    @Bean(name = "creditTaskExecutor")
+    public TaskExecutor creditTaskExecutor() {
+       ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+       executor.setCorePoolSize(5);
+       executor.setMaxPoolSize(10);
+       executor.initialize();
+       return executor;
+    }
+
+    @Bean(name = "genericTaskExecutor")
+    public TaskExecutor genericTaskExecutor() {
        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
        executor.setCorePoolSize(5);
        executor.setMaxPoolSize(10);
@@ -23,5 +44,13 @@ public class ApplicationConfiguration {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        return mapper;
     }
 }

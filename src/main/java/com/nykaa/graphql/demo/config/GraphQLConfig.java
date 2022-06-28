@@ -13,5 +13,4 @@ public class GraphQLConfig {
     public GraphQLScalarType json() {
         return ExtendedScalars.Json;
     }
-
 }

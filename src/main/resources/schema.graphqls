@@ -1,6 +1,11 @@
 scalar JSON
 
 type Query {
-  testTradeScheme: String
-  getAllOffer(customerGroupId: Int, skuList: [String]): JSON
+    testCredit: String
+    testCreditAsync: String
+    testTradeScheme: String
+    testTradeSchemeAsync: String
+    getAllOffer(request: JSON): JSON
+    schemeBasedOnSKU(request: JSON, version: String): JSON
+    nestedApiCall(customerGroupId: Int, id: Int): JSON
 }
