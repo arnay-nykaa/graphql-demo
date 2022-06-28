@@ -9,6 +9,8 @@ public class Constants {
             public static final String SCHEME_BASED_ON_SKU = "/schemeBasedOnSKU/";
             public static final String V2 = "/v2";
         }
+        public static final String CUSTOMER_GROUP_ID = "customerGroupId";
+        public static final String SKU_LIST = "skuList";
     }
 
     public interface Credit {

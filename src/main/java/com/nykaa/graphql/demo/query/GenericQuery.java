@@ -1,5 +1,6 @@
 package com.nykaa.graphql.demo.query;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,7 +27,7 @@ public class GenericQuery implements GraphQLQueryResolver {
         return CompletableFuture.supplyAsync(() -> {
            try {
             return genericService.nestedAPICall(customerGroupId, id);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException | URISyntaxException e) {
             e.printStackTrace();
         }
         return null;

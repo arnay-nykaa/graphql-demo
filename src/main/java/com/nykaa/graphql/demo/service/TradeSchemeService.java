@@ -2,10 +2,11 @@ package com.nykaa.graphql.demo.service;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,6 +38,15 @@ public class TradeSchemeService {
         String responseString = restService
                 .postForEntity(getUrl(TradeScheme.Urls.GET_ALL_OFFER),objectMapper.readValue(request, typeRef))
                 .getBody();
+        return objectMapper.readValue(responseString, typeRef);
+    }
+
+    public HashMap<String, Object> getAllOffer(int customerGroupId, List<String> skuList) throws URISyntaxException, JsonProcessingException {
+        Map<String, Object> request = new HashMap<>();
+        request.put(TradeScheme.CUSTOMER_GROUP_ID, customerGroupId);
+        request.put(TradeScheme.SKU_LIST, skuList);
+        String responseString = restService.postForEntity(tradeSchemeProperties.getUrl() + TradeScheme.Urls.GET_ALL_OFFER, request).getBody();
+        TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
         return objectMapper.readValue(responseString, typeRef);
     }
 
