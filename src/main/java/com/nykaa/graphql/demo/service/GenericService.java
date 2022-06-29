@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
 public class GenericService {
@@ -19,11 +20,11 @@ public class GenericService {
     @Autowired
     TradeSchemeService tradeSchemeService;
 
-    public HashMap<String, Object> nestedAPICall(int customerGroupId, int id) throws JsonProcessingException, URISyntaxException {
-        HashMap<String, Object> pdpResponse = pdpService.getProducts(id, customerGroupId);
+    public HashMap<String, Object> nestedAPICall(int customerGroupId, int productId) throws JsonProcessingException, URISyntaxException {
+        JsonNode pdpResponse = pdpService.getProducts(productId, customerGroupId);
         List<String> skuList = new ArrayList<>();
-        skuList.add(String.valueOf(pdpResponse.get("psku")));
-        skuList.add(String.valueOf(pdpResponse.get("sku")));
+        skuList.add(pdpResponse.get("result").get("psku").asText());
+        skuList.add(pdpResponse.get("result").get("sku").asText());
         return tradeSchemeService.getAllOffer(customerGroupId, skuList);
     }
 

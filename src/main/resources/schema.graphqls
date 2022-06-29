@@ -7,5 +7,5 @@ type Query {
     testTradeSchemeAsync: String
     getAllOffer(request: JSON): JSON
     schemeBasedOnSKU(request: JSON, version: String): JSON
-    nestedApiCall(customerGroupId: Int, id: Int): JSON
+    nestedApiCall(customerGroupId: Int, productId: Int): JSON
 }

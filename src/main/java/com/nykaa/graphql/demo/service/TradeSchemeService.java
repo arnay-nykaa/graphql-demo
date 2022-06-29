@@ -45,7 +45,7 @@ public class TradeSchemeService {
         Map<String, Object> request = new HashMap<>();
         request.put(TradeScheme.CUSTOMER_GROUP_ID, customerGroupId);
         request.put(TradeScheme.SKU_LIST, skuList);
-        String responseString = restService.postForEntity(tradeSchemeProperties.getUrl() + TradeScheme.Urls.GET_ALL_OFFER, request).getBody();
+        String responseString = restService.postForEntity(getUrl(TradeScheme.Urls.GET_ALL_OFFER), request).getBody();
         TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
         return objectMapper.readValue(responseString, typeRef);
     }

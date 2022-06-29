@@ -24,6 +24,6 @@ public class Constants {
             public static final String PRODUCT_LISTING = "/apis/v2/product.list";
         }
         public static final String CUSTOMER_GROUP_ID = "customer_group_id";
-        public static final String ID = "id";
+        public static final String PRODUCT_ID = "id";
     }
 }

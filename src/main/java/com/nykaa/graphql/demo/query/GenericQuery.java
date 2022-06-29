@@ -17,16 +17,16 @@ import com.nykaa.graphql.demo.service.GenericService;
 public class GenericQuery implements GraphQLQueryResolver {
 
     @Autowired
-    @Qualifier("creditTaskExecutor")
+    @Qualifier("genericTaskExecutor")
     private TaskExecutor taskExecutor;
 
     @Autowired
     private GenericService genericService;
     
-    public CompletableFuture<HashMap<String, Object>> nestedApiCall(int customerGroupId, int id) {
+    public CompletableFuture<HashMap<String, Object>> nestedApiCall(int customerGroupId, int productId) {
         return CompletableFuture.supplyAsync(() -> {
            try {
-            return genericService.nestedAPICall(customerGroupId, id);
+            return genericService.nestedAPICall(customerGroupId, productId);
         } catch (JsonProcessingException | URISyntaxException e) {
             e.printStackTrace();
         }
