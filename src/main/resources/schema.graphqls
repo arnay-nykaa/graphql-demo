@@ -8,4 +8,11 @@ type Query {
     getAllOffer(request: JSON): JSON
     schemeBasedOnSKU(request: JSON, version: String): JSON
     nestedApiCall(customerGroupId: Int, productId: Int): JSON
+    explicitDataRequest: BaseResponse
+}
+
+type BaseResponse {
+    success: Boolean,
+    message: String,
+    statusCode: String
 }
