@@ -35,4 +35,13 @@ public class ApplicationProperties {
     public class PDPProperties {
         private String url;
     }
+
+    @ConfigurationProperties(prefix = "cache")
+    @Getter
+    @Setter
+    @Component
+    public class CacheProperties {
+        private Long ttlInMinutes;
+        private Long maxSize;
+    }
 }
