@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.nykaa.graphql.demo.service.CreditService;
+
+import graphql.kickstart.tools.GraphQLQueryResolver;
 
 @Service
 public class CreditQuery implements GraphQLQueryResolver {

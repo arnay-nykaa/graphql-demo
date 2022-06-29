@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nykaa.graphql.demo.dto.BaseResponse;
 import com.nykaa.graphql.demo.service.GenericService;
+
+import graphql.kickstart.tools.GraphQLQueryResolver;
 
 @Service
 public class GenericQuery implements GraphQLQueryResolver {
