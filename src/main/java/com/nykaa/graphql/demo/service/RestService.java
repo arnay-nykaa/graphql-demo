@@ -15,6 +15,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 @Service
 public class RestService {
 
@@ -33,8 +35,8 @@ public class RestService {
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(headers), String.class);
     }
 
-    public ResponseEntity<String> postForEntity(String url, Map<String, Object> request) throws URISyntaxException {
-        RequestEntity<Map<String,Object>> requestEntity = new RequestEntity<Map<String,Object>>(request, HttpMethod.POST, new URI(url));
+    public ResponseEntity<String> postForEntity(String url, JsonNode request) throws URISyntaxException {
+        RequestEntity<JsonNode> requestEntity = new RequestEntity<JsonNode>(request, HttpMethod.POST, new URI(url));
         return restTemplate.exchange(requestEntity, String.class);
     }
 }

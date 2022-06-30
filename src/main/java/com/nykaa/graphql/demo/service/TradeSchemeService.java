@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nykaa.graphql.demo.config.ApplicationProperties.TradeSchemeProperties;
 import com.nykaa.graphql.demo.util.Constants.TradeScheme;
@@ -27,36 +27,20 @@ public class TradeSchemeService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {};
-
     public String testTradeScheme() {
         return restService.getForEntity(tradeSchemeProperties.getUrl() + TradeScheme.Urls.TEST_TS, null, null).getBody();
     }
 
-//    @Cacheable(value = "getAllOffer", key = "{#request}")
-    public HashMap<String, Object> getAllOffer(String request) throws URISyntaxException, JsonProcessingException {
-        String responseString = restService
-                .postForEntity(getUrl(TradeScheme.Urls.GET_ALL_OFFER),objectMapper.readValue(request, typeRef))
-                .getBody();
-        return objectMapper.readValue(responseString, typeRef);
-    }
-
-    public HashMap<String, Object> getAllOffer(int customerGroupId, List<String> skuList) throws URISyntaxException, JsonProcessingException {
-        Map<String, Object> request = new HashMap<>();
-        request.put(TradeScheme.CUSTOMER_GROUP_ID, customerGroupId);
-        request.put(TradeScheme.SKU_LIST, skuList);
+    public JsonNode getAllOffer(JsonNode request) throws URISyntaxException, JsonProcessingException {
         String responseString = restService.postForEntity(getUrl(TradeScheme.Urls.GET_ALL_OFFER), request).getBody();
-        TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
-        return objectMapper.readValue(responseString, typeRef);
+        return objectMapper.readTree(responseString);
     }
 
-    public HashMap<String, Object> schemeBasedOnSKU(String request, String version)
+    public JsonNode schemeBasedOnSKU(JsonNode request, String version)
             throws URISyntaxException, JsonProcessingException {
-        String responseString = restService.postForEntity(
-                getUrl(TradeScheme.Urls.SCHEME_BASED_ON_SKU,
-                        version.equals("v2") ? TradeScheme.Urls.V2 : StringUtils.EMPTY),
-                objectMapper.readValue(request, typeRef)).getBody();
-        return objectMapper.readValue(responseString, typeRef);
+        String responseString = restService.postForEntity(getUrl(TradeScheme.Urls.SCHEME_BASED_ON_SKU,
+                version.equals("v2") ? TradeScheme.Urls.V2 : StringUtils.EMPTY), request).getBody();
+        return objectMapper.readTree(responseString);
     }
 
     private String getUrl(String... paths) {
@@ -66,5 +50,13 @@ public class TradeSchemeService {
             url.append(path);
         }
         return url.toString();
+    }
+
+    public JsonNode getAllOffer(int customerGroupId, List<String> skuList)
+            throws JsonProcessingException, IllegalArgumentException, URISyntaxException {
+        Map<String, Object> request = new HashMap<>();
+        request.put(TradeScheme.CUSTOMER_GROUP_ID, customerGroupId);
+        request.put(TradeScheme.SKU_LIST, skuList);
+        return getAllOffer(objectMapper.valueToTree(request));
     }
 }

@@ -2,7 +2,6 @@ package com.nykaa.graphql.demo.service;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class GenericService {
     @Autowired
     TradeSchemeService tradeSchemeService;
 
-    public HashMap<String, Object> nestedAPICall(int customerGroupId, int productId) throws JsonProcessingException, URISyntaxException {
+    public JsonNode nestedAPICall(int customerGroupId, int productId) throws JsonProcessingException, URISyntaxException {
         JsonNode pdpResponse = pdpService.getProducts(productId, customerGroupId);
         List<String> skuList = new ArrayList<>();
         skuList.add(pdpResponse.get("result").get("psku").asText());

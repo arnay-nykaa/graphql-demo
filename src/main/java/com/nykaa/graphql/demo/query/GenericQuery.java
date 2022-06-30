@@ -1,7 +1,6 @@
 package com.nykaa.graphql.demo.query;
 
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
@@ -11,6 +10,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.nykaa.graphql.demo.dto.BaseResponse;
 import com.nykaa.graphql.demo.service.GenericService;
 
@@ -26,7 +26,7 @@ public class GenericQuery implements GraphQLQueryResolver {
     @Autowired
     private GenericService genericService;
     
-    public CompletableFuture<HashMap<String, Object>> nestedApiCall(int customerGroupId, int productId) {
+    public CompletableFuture<JsonNode> nestedApiCall(int customerGroupId, int productId) {
         return CompletableFuture.supplyAsync(() -> {
            try {
             return genericService.nestedAPICall(customerGroupId, productId);
