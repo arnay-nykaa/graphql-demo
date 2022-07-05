@@ -3,6 +3,7 @@ package com.nykaa.graphql.demo.cache;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -18,9 +19,15 @@ public class ResponseCacheManager implements GraphQLResponseCacheManager {
     @Autowired
     private Cache<RequestKey, CachedResponse> responseCache;
 
+    @Autowired
+    private RedisTemplate<RequestKey, CachedResponse> redisTemplate;
+
     @Override
     public CachedResponse get(HttpServletRequest request, GraphQLInvocationInput invocationInput) {
-        return responseCache.getIfPresent(new RequestKey(invocationInput.getQueries()));
+        RequestKey requestKey = new RequestKey(invocationInput.getQueries());
+        return redisTemplate.hasKey(requestKey) ? redisTemplate.opsForValue().get(requestKey): null;
+//        return responseCache.getIfPresent(new RequestKey(invocationInput.getQueries()));
+        
     }
 
     @Override
@@ -31,7 +38,8 @@ public class ResponseCacheManager implements GraphQLResponseCacheManager {
 
     @Override
     public void put(HttpServletRequest request, GraphQLInvocationInput invocationInput, CachedResponse cachedResponse) {
-        responseCache.put(new RequestKey(invocationInput.getQueries()), cachedResponse);
+        redisTemplate.opsForValue().setIfAbsent(new RequestKey(invocationInput.getQueries()), cachedResponse);
+//        responseCache.put(new RequestKey(invocationInput.getQueries()), cachedResponse);
     }
 
     private boolean isIntrospectionQuery(String query) {

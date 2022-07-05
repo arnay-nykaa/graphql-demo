@@ -5,6 +5,8 @@ import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -29,5 +31,12 @@ public class CacheConfig {
                 .removalListener((key, value, cause) -> 
                     log.info("Key {} with value {} was removed from the response cache. Cause {}", key, value, cause))
                 .build();
+    }
+
+    @Bean
+    public RedisTemplate<RequestKey, CachedResponse> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<RequestKey, CachedResponse> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+        return template;
     }
 }
