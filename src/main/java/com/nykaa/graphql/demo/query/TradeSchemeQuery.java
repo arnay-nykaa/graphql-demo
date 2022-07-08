@@ -1,7 +1,12 @@
 package com.nykaa.graphql.demo.query;
 
 import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +17,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nykaa.graphql.demo.service.TradeSchemeService;
 
+import graphql.kickstart.servlet.context.GraphQLServletContext;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import graphql.schema.DataFetchingEnvironment;
 
 @Service
 public class TradeSchemeQuery implements GraphQLQueryResolver {
@@ -24,7 +31,12 @@ public class TradeSchemeQuery implements GraphQLQueryResolver {
     @Autowired
     private TradeSchemeService tradeSchemeService;
 
-    public String testTradeScheme() {
+    public String testTradeScheme(DataFetchingEnvironment env) {
+        GraphQLServletContext context = env.getContext();
+        HttpServletRequest httpRequest = context.getHttpServletRequest();
+        Map<String, String> headers = Collections.list(httpRequest.getHeaderNames())
+                .stream()
+                .collect(Collectors.toMap(h -> h, httpRequest::getHeader));
         return tradeSchemeService.testTradeScheme();
     }
 

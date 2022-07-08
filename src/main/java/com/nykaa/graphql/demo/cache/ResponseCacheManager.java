@@ -25,8 +25,8 @@ public class ResponseCacheManager implements GraphQLResponseCacheManager {
     @Override
     public CachedResponse get(HttpServletRequest request, GraphQLInvocationInput invocationInput) {
         RequestKey requestKey = new RequestKey(invocationInput.getQueries());
-        return redisTemplate.hasKey(requestKey) ? redisTemplate.opsForValue().get(requestKey): null;
-//        return responseCache.getIfPresent(new RequestKey(invocationInput.getQueries()));
+//        return redisTemplate.hasKey(requestKey) ? redisTemplate.opsForValue().get(requestKey): null;
+        return responseCache.getIfPresent(new RequestKey(invocationInput.getQueries()));
         
     }
 
@@ -38,8 +38,8 @@ public class ResponseCacheManager implements GraphQLResponseCacheManager {
 
     @Override
     public void put(HttpServletRequest request, GraphQLInvocationInput invocationInput, CachedResponse cachedResponse) {
-        redisTemplate.opsForValue().setIfAbsent(new RequestKey(invocationInput.getQueries()), cachedResponse);
-//        responseCache.put(new RequestKey(invocationInput.getQueries()), cachedResponse);
+//        redisTemplate.opsForValue().setIfAbsent(new RequestKey(invocationInput.getQueries()), cachedResponse);
+        responseCache.put(new RequestKey(invocationInput.getQueries()), cachedResponse);
     }
 
     private boolean isIntrospectionQuery(String query) {
