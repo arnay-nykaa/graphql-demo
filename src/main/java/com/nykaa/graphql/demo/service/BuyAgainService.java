@@ -64,13 +64,13 @@ public class BuyAgainService {
     }
 
     private void getSkuListFromPreviousOrders(Map<String, SkuInfo> skuList, JsonNode previousOrders) {
-        JsonNode orderList = previousOrders.path("data").path("orderList");
+        JsonNode orderList = previousOrders.path(OMS.DATA).path(OMS.ORDER_LIST);
         if (orderList.isArray()) {
             for (JsonNode order : orderList) {
-                JsonNode shipmentDetail = order.path("shipmentDetail");
+                JsonNode shipmentDetail = order.path(OMS.SHIPMENT_DETAIL);
                 if (shipmentDetail.isArray()) {
                     for (JsonNode shipment : shipmentDetail) {
-                        JsonNode itemList = shipment.path("itemList");
+                        JsonNode itemList = shipment.path(OMS.ITEM_LIST);
                         if (itemList.isArray()) {
                             for (JsonNode item : itemList) {
                                 addSkuDataToList(item, order, shipment, skuList);
@@ -83,17 +83,17 @@ public class BuyAgainService {
     }
 
     private void addSkuDataToList(JsonNode item, JsonNode order, JsonNode shipment, Map<String, SkuInfo> skuList) {
-        String sku = item.get("itemSku").asText();
+        String sku = item.get(OMS.ITEM_SKU).asText();
         SkuInfo skuInfo = skuList.containsKey(sku) ? skuList.get(sku) : new SkuInfo(sku);
         if (!skuList.containsKey(sku)) {
-            skuInfo.setProductId(item.get("productId").asText());
-            skuInfo.setName(item.get("itemName").asText());
-            skuInfo.setImageUrl(item.get("imageUrl").asText());
+            skuInfo.setProductId(item.get(OMS.PRODUCT_ID).asText());
+            skuInfo.setName(item.get(OMS.ITEM_NAME).asText());
+            skuInfo.setImageUrl(item.get(OMS.IMAGE_URL).asText());
         }
-        skuInfo.setAggregatedQtyOrdered(skuInfo.getAggregatedQtyOrdered() + item.get("itemQuantity").asInt());
+        skuInfo.setAggregatedQtyOrdered(skuInfo.getAggregatedQtyOrdered() + item.get(OMS.ITEM_QTY).asInt());
         skuInfo.setNoOfOrders(skuInfo.getNoOfOrders() + 1);
         skuInfo.setAverageQtyOrdered(skuInfo.getAggregatedQtyOrdered() / skuInfo.getNoOfOrders());
-        LocalDate orderDate = LocalDate.parse(order.get("createdAt").asText(), formatter);
+        LocalDate orderDate = LocalDate.parse(order.get(OMS.CREATED_AT).asText(), formatter);
         if (Objects.isNull(skuInfo.getLastOrdered()) || skuInfo.getLastOrdered().isBefore(orderDate)) {
             skuInfo.setLastOrdered(orderDate);
         }
