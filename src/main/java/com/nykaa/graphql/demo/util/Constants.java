@@ -22,10 +22,26 @@ public class Constants {
     public interface PDP {
         public interface Urls {
             String PRODUCT_LISTING = "/apis/v2/product.list";
+            String PRODUCT_DETAILS = "/products/details";
+            
         }
         String CUSTOMER_GROUP_ID = "customer_group_id";
-        String PRODUCT_ID = "id";
+        String ID = "id";
+        String PRODUCT_ID = "product_id";
+        String SKUS = "skus";
+        String CATEGORY_TAG_FILTER = "category_tag_filter";
+        String FETCH_ALL_DATA = "fetch_all_data";
+        String DOMAIN = "domain";
+    }
+
+    public interface OMS {
+        public interface Urls {
+            String ORDER_LIST = "/v1/orderList";
+        }
+        String USER_ID = "userId";
+        String ORDER_SOURCE = "orderSource";
     }
 
     public static final String INTROSPECTION = "Introspection";
+    public static final String NYKAA_D = "NYKAA_D";
 }

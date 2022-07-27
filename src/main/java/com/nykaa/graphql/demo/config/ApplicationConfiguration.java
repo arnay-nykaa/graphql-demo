@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Configuration
 @EnableAsync
@@ -41,6 +42,15 @@ public class ApplicationConfiguration {
        return executor;
     }
 
+    @Bean(name = "buyAgainTaskExecutor")
+    public TaskExecutor BuyAgainTaskExecutor() {
+       ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+       executor.setCorePoolSize(5);
+       executor.setMaxPoolSize(10);
+       executor.initialize();
+       return executor;
+    }
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
@@ -51,6 +61,7 @@ public class ApplicationConfiguration {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
 }

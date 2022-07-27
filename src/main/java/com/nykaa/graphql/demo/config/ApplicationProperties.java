@@ -44,4 +44,12 @@ public class ApplicationProperties {
         private Long ttlInMinutes;
         private Long maxSize;
     }
+
+    @ConfigurationProperties(prefix = "oms")
+    @Getter
+    @Setter
+    @Component
+    public class OMSProperties {
+        private String url;
+    }
 }

@@ -22,11 +22,23 @@ public class CreditQuery implements GraphQLQueryResolver {
     private CreditService creditService;
 
     public String testCredit() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return creditService.testCredit();
     }
     
     public CompletableFuture<String> testCreditAsync() {
         return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
            return creditService.testCredit();
         }, taskExecutor);
     }

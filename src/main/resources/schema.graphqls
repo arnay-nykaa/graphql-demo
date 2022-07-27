@@ -9,6 +9,7 @@ type Query {
     schemeBasedOnSKU(request: JSON, version: String): JSON
     nestedApiCall(customerGroupId: Int, productId: Int): JSON
     explicitDataRequest: BaseResponse
+    buyAgain(customerId: String, customerGroupId: Int, catalogTagFilter: String): JSON
 }
 
 type BaseResponse {

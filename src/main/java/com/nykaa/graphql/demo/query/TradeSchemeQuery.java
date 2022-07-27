@@ -32,6 +32,12 @@ public class TradeSchemeQuery implements GraphQLQueryResolver {
     private TradeSchemeService tradeSchemeService;
 
     public String testTradeScheme(DataFetchingEnvironment env) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         GraphQLServletContext context = env.getContext();
         HttpServletRequest httpRequest = context.getHttpServletRequest();
         Map<String, String> headers = Collections.list(httpRequest.getHeaderNames())
@@ -42,6 +48,12 @@ public class TradeSchemeQuery implements GraphQLQueryResolver {
 
     public CompletableFuture<String> testTradeSchemeAsync() {
         return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
            return tradeSchemeService.testTradeScheme();
         }, taskExecutor);
     }
