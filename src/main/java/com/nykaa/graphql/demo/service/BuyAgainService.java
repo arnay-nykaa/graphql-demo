@@ -19,6 +19,7 @@ import com.nykaa.graphql.demo.config.ApplicationProperties.OMSProperties;
 import com.nykaa.graphql.demo.dto.SkuInfo;
 import com.nykaa.graphql.demo.util.Constants;
 import com.nykaa.graphql.demo.util.Constants.OMS;
+import com.nykaa.graphql.demo.util.Constants.PDP;
 
 @Service
 public class BuyAgainService {
@@ -48,8 +49,8 @@ public class BuyAgainService {
     private void getPDPInfo(Map<String, SkuInfo> skuList, Integer customerGroupId, String categoryTagFilter) throws JsonProcessingException {
         for (SkuInfo product : skuList.values()) {
             JsonNode productDetails = pdpService.getProductDetails(product.getProductId(), customerGroupId, categoryTagFilter).path("response");
-            product.setMinOrderQty(productDetails.get("min_order_qty").asInt());
-            product.setMaxOrderQty(productDetails.get("max_allowed_qty").asInt());
+            product.setMinOrderQty(productDetails.get(PDP.MIN_ORDER_QTY).asInt());
+            product.setMaxOrderQty(productDetails.get(PDP.MAX_ORDER_QTY).asInt());
         }
         
     }
