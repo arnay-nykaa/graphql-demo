@@ -28,12 +28,12 @@ public class ApplicationProperties {
         private String url;
     }
 
-    @ConfigurationProperties(prefix = "pdp")
+    @ConfigurationProperties(prefix = "discovery")
     @Getter
     @Setter
     @Component
-    public class PDPProperties {
-        private String url;
+    public class DiscoveryProperties {
+        private String nykaaApiUrl;
     }
 
     @ConfigurationProperties(prefix = "cache")

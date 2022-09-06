@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class GenericService {
 
     @Autowired
-    PDPService pdpService;
+    DiscoveryService discoveryService;
 
     @Autowired
     TradeSchemeService tradeSchemeService;
 
     public JsonNode nestedAPICall(int customerGroupId, int productId) throws JsonProcessingException, URISyntaxException {
-        JsonNode pdpResponse = pdpService.getProducts(productId, customerGroupId);
+        JsonNode pdpResponse = discoveryService.getProducts(productId, customerGroupId);
         List<String> skuList = new ArrayList<>();
         skuList.add(pdpResponse.get("result").get("psku").asText());
         skuList.add(pdpResponse.get("result").get("sku").asText());

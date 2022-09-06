@@ -19,11 +19,10 @@ public class Constants {
         }
     }
 
-    public interface PDP {
+    public interface NYKAA_API {
         public interface Urls {
-            String PRODUCT_LISTING = "/apis/v2/product.list";
             String PRODUCT_DETAILS = "/products/details";
-            
+            String PRODUCT_LISTING = "/apis/v2/product.list";
         }
         String CUSTOMER_GROUP_ID = "customer_group_id";
         String ID = "id";
@@ -45,6 +44,7 @@ public class Constants {
         String DATA = "data";
         String ORDER_LIST = "orderList";
         String SHIPMENT_DETAIL = "shipmentDetail";
+        String REMAINING_DETAIL = "remainingDetail";
         String ITEM_LIST = "itemList";
         String ITEM_SKU = "itemSku";
         String PRODUCT_ID = "productId";
